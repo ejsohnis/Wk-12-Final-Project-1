@@ -1,0 +1,92 @@
+<!--Creation of a full CRUD application using MochAPI with Ajax to interact with it.
+Using of a form to post new entities, and building a way for users to update or delete
+entities. I used bootstrap and CSS-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row">
+            <!-- Your content here bootstrap table class for formatting show table property-->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Show Name</th>
+                        <th>Theater Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Address</th>
+                        <th>Ticket Quantity</th>
+                        <th>Price</th>
+                        <th></th> <!--update button header-->
+                        <th></th> <!--update delete header-->
+
+                    </tr>
+                </thead>
+                <tbody class="formBody">
+                    <!-- Your data here -->
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group">
+                                        <label for="showName">Show Name</label>
+                                        <input type="text" class="form-control" id="showName" name="showName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="theaterName">Theater Name</label>
+                                        <input type="text" class="form-control" id="theaterName" name="theaterName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="date">Date</label>
+                                        <input type="date" class="form-control" id="date" name="date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="time">Time</label>
+                                        <input type="text" class="form-control" id="time" name="time">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ticketQuantity">Ticket Quantity</label>
+                                        <input type="number" class="form-control" id="ticketQuantity"
+                                            name="ticketQuantity">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="price">Price</label>
+                                        <input type="number" class="form-control" id="price" name="price">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+</body>
+
+</html>
