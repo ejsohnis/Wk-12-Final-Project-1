@@ -37,34 +37,7 @@ form.addEventListener('submit', (event) => {
         .then(data => {
 
             console.log(JSON.stringify(show));
-            const tr = document.createElement('tr');
-
-            tableID = data.id //New Global const for table ID
-
-            //I added below in <td> tags contenteditable='true' to make 
-            //table data cell information editable for update
-
-
-            tr.innerHTML = `
-
-        <td contenteditable='true' id="tableShowName">${data.showName}</td>
-        <td contenteditable='true' id="tableTheaterName">${data.theaterName}</td>
-        <td contenteditable='true' id="tableDate">${data.date}</td>
-        <td contenteditable='true' id="tableTime">${data.time}</td>
-        <td contenteditable='true' id="tableAddress">${data.address}</td>
-        <td contenteditable='true' id="tableQuantity">${data.ticketQuantity}</td>
-        <td contenteditable='true' id="tablePrice">${data.price}</td>
-        <td>
-         
-          <button class="btn btn-danger delete-btn" data-id="${data.id}">Delete</button>
-        </td>
-        <td>
-        <button class="btn btn-success update-btn" data-id="${data.id}">Update</button>
-        </td>
-      `;
-            tableBody.appendChild(tr);
-
-            form.reset();
+            getShows();
         });
 
 });
@@ -78,13 +51,10 @@ document.querySelector('table').addEventListener('click', function (event) {
     if (event.target.classList.contains('delete-btn')) {
         //validate if you want to delete from api and website
 
-        console.log(event.target.classList);
-
-
         alert("Are you sure you want to delete");
-
         //call deleteShow function
-        deleteShow(tableID);
+
+        deleteShow($(event.target).data("id"));
 
         //delete the target that is the table row
         event.target.closest('tr').remove();
@@ -108,7 +78,44 @@ function deleteShow(tableID) {
         .catch(error => console.error(error));
 }
 
+function getShows() {
 
+    fetch(`https://6439b5f790cd4ba563ec9f3f.mockapi.io/Shows/`, {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(d => {
+            tableBody.innerHTML = ""
+            d.forEach(data => {
+                const tr = document.createElement('tr');
+                // tableID = data.id //New Global const for table ID
+
+                //I added below in <td> tags contenteditable='true' to make 
+                //table data cell information editable for update
+
+
+                tr.innerHTML = `
+    
+            <td contenteditable='true' id="tableShowName-${data.id}">${data.showName}</td>
+            <td contenteditable='true' id="tableTheaterName-${data.id}">${data.theaterName}</td>
+            <td contenteditable='true' id="tableDate-${data.id}">${data.date}</td>
+            <td contenteditable='true' id="tableTime-${data.id}">${data.time}</td>
+            <td contenteditable='true' id="tableAddress-${data.id}">${data.address}</td>
+            <td contenteditable='true' id="tableQuantity-${data.id}">${data.ticketQuantity}</td>
+            <td contenteditable='true' id="tablePrice-${data.id}">${data.price}</td>
+            <td>
+             
+              <button class="btn btn-danger delete-btn" data-id="${data.id}" value="${data.id}">Delete</button>
+            </td>
+            <td>
+            <button class="btn btn-success update-btn" data-id="${data.id}">Update</button>
+            </td>
+          `;
+                tableBody.appendChild(tr);
+            })
+        })
+        .catch(error => console.error(error));
+}
 
 //listener event for update button click in the table row 
 
@@ -116,22 +123,22 @@ document.querySelector('table').addEventListener('click', function (event) {
     if (event.target.classList.contains('update-btn')) {
 
         //console.log(document.getElementById('tableShowName').innerText,) 
-
+        const id = $(event.target).data("id")
         const tableData = {
-            showName: document.getElementById('tableShowName').innerText,
-            theaterName: document.getElementById('tableTheaterName').innerText,
-            date: document.getElementById('tableDate').innerText,
-            time: document.getElementById('tableTime').innerText,
-            address: document.getElementById('tableAddress').innerText,
-            ticketQuantity: document.getElementById('tableQuantity').innerText,
-            price: document.querySelector('#tablePrice').value
+            showName: document.getElementById('tableShowName-' + id).innerText,
+            theaterName: document.getElementById('tableTheaterName-' + id).innerText,
+            date: document.getElementById('tableDate-' + id).innerText,
+            time: document.getElementById('tableTime-' + id).innerText,
+            address: document.getElementById('tableAddress-' + id).innerText,
+            ticketQuantity: document.getElementById('tableQuantity-' + id).innerText,
+            price: document.querySelector('#tablePrice-' + id).value
         };
 
         //validate if you want to update 
         alert("Are you sure you want to update");
 
         //call updateShow function 
-        updateShow(tableID, tableData);
+        updateShow(id, tableData);
 
 
         // event.target.closest('tr').remove(); 
@@ -153,9 +160,10 @@ function updateShow(tableID, tableData) {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            // location.reload(); // Refresh the page after update 
+            location.reload(); // Refresh the page after update 
         })
         .catch(error => console.error(error));
 }
 
 
+getShows();
